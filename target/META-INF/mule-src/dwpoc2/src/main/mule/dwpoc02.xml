@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="532ec494-0f7d-47a7-a3a4-40d58a370ad4" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="dwpoc2Flow" doc:id="4bc875c4-d6bc-4c8c-ba34-8de67a1318bb" >
+		<http:listener doc:name="Listener" doc:id="c980bda4-b494-4a28-a16b-ed7910cd49f0" config-ref="HTTP_Listener_config" path="/dwpoc2"/>
+		<ee:transform doc:name="Transform Message" doc:id="d2ce2af9-9140-45e8-8bb9-b6a8222a570a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var dwpoc1_num = 5
+output application/json
+---
+//POC-2 DW Function
+{
+	"Modular of 5" : mod(dwpoc1_num,2),
+	"IsEven 5" : isEven(dwpoc1_num),
+	"isOdd 5" : isOdd(dwpoc1_num)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
